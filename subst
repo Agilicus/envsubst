@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ $# -eq 0 ]
+then
+    echo "Usage: $0 ifile:ofile [ifile:ofile ...]"
+    exit 1
+fi
+
+for i in "$*"
+do
+    ifile=${i%:*}
+    ofile=${i#*:}
+    echo "$(date -Is) substitute variables in <<$ifile>> into <<$ofile>>"
+    mkdir -p "$(dirname "$ofile")"
+    /usr/bin/envsubst  < "$ifile" > "$ofile"
+done
